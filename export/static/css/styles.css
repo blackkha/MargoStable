@@ -1,0 +1,40 @@
+/* Custom styles for Crypto Leverage Indicator Tracker */
+
+/* Custom card styling */
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card-header {
+    font-weight: 500;
+}
+
+/* Table styling */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    font-weight: 600;
+    border-top: none;
+}
+
+/* Chart container */
+#chart-container {
+    width: 100%;
+    min-height: 500px;
+}
+
+/* Custom alert styling */
+.alert {
+    border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}

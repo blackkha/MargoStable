@@ -1,0 +1,67 @@
+{% extends "layout.html" %}
+
+{% block title %}About - Crypto Leverage Indicator Tracker{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-4">About the Crypto Leverage Indicator Tracker</h2>
+                    
+                    <h4>What is the Leverage Indicator?</h4>
+                    <p>
+                        The Leverage Indicator is a metric we've developed to identify cryptocurrencies with high trading activity 
+                        relative to their market capitalization. While not a direct measure of leverage, it serves as a proxy for identifying 
+                        assets that may be experiencing significant leverage trading.
+                    </p>
+                    
+                    <h4>How is it Calculated?</h4>
+                    <p>
+                        Our Leverage Indicator is calculated using the following formula:
+                        <pre class="bg-dark text-light p-3 rounded">Leverage Indicator = (Volume / Market Cap) × (1 + |24h Price Change %| / 100) × 100</pre>
+                        
+                        This formula considers:
+                        <ul>
+                            <li><strong>Volume to Market Cap Ratio:</strong> A higher ratio suggests more trading activity relative to the asset's size</li>
+                            <li><strong>Price Volatility:</strong> We factor in 24-hour price changes as volatile assets often attract leverage traders</li>
+                        </ul>
+                    </p>
+                    
+                    <h4>Data Sources</h4>
+                    <p>
+                        We source our data primarily from:
+                        <ul>
+                            <li><strong>CoinGecko API:</strong> For comprehensive market data on cryptocurrencies</li>
+                            <li><strong>CCXT Library:</strong> As a fallback for exchange-specific data when needed</li>
+                        </ul>
+                    </p>
+                    
+                    <h4>Telegram Bot</h4>
+                    <p>
+                        Stay updated with our Telegram bot:
+                        <ul>
+                            <li>Get daily reports on cryptocurrencies with the highest leverage indicators</li>
+                            <li>Receive instant updates when you request them</li>
+                            <li>Subscribe/unsubscribe at any time</li>
+                        </ul>
+                        <a href="https://t.me/your_bot_username" target="_blank" class="btn btn-primary mt-2">
+                            <i class="bi bi-telegram me-1"></i> Join on Telegram
+                        </a>
+                    </p>
+                    
+                    <div class="alert alert-warning mt-4">
+                        <h5 class="alert-heading">Disclaimer</h5>
+                        <p class="mb-0">
+                            The information provided by this service is for informational purposes only. 
+                            It is not financial advice and should not be used as a basis for investment decisions. 
+                            Cryptocurrency trading involves significant risk. Always do your own research before trading.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

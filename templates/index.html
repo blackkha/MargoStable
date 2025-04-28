@@ -1,0 +1,180 @@
+{% extends "layout.html" %}
+
+{% block title %}High Leverage Cryptocurrencies | B/R Ratio > 10{% endblock %}
+
+{% block head %}
+<style>
+    .ratio-high {
+        color: #ff4757;
+    }
+    .ratio-medium {
+        color: #ffa502;
+    }
+    .ratio-low {
+        color: #2ed573;
+    }
+    .margin-card {
+        transition: transform 0.3s;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .margin-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="display-5">Top 20 Cryptocurrencies with B/R Ratio > 10</h1>
+                        <p class="lead">High Leverage Cryptocurrencies Sorted by Ratio</p>
+                    </div>
+                    <div class="text-end">
+                        <p class="text-muted mb-0">Last updated:</p>
+                        <p class="fs-6">{{ timestamp }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <div id="ratio-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if not crypto_data %}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    Unable to fetch crypto data from any sources. Please try again later.
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    <strong>What is Borrow/Repay Ratio?</strong> 
+                    This ratio indicates the relationship between borrowed and repaid cryptocurrency amounts. 
+                    A higher ratio suggests stronger demand for borrowing a particular crypto asset, which could indicate increased leveraged trading activity.
+                </div>
+            </div>
+        </div>
+        
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for item in crypto_data %}
+            <div class="col">
+                <div class="card h-100 bg-dark margin-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span class="fw-bold fs-5">{{ item.symbol }}</span>
+                        {% if item.ratio > 15.0 %}
+                        <span class="badge bg-danger">Extreme Leverage</span>
+                        {% elif item.ratio > 12.0 %}
+                        <span class="badge bg-warning">High Leverage</span>
+                        {% else %}
+                        <span class="badge bg-success">Moderate Leverage</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Borrowed (24h)</span>
+                                <span class="fw-bold">{{ item.borrow_formatted }}</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 8px;">
+                                <div class="progress-bar bg-primary" style="width: 100%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span class="text-muted">Repaid (24h)</span>
+                                <span class="fw-bold">{{ item.repay_formatted }}</span>
+                            </div>
+                            <div class="progress mt-1" style="height: 8px;">
+                                {% if item.repay_amount > 0 and item.borrow_amount > 0 %}
+                                <div class="progress-bar bg-secondary" style="width: {{ (item.repay_amount / item.borrow_amount * 100)|round|int }}%"></div>
+                                {% else %}
+                                <div class="progress-bar bg-secondary" style="width: 0%"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="text-muted">Borrow/Repay Ratio:</span>
+                            {% if item.ratio > 15.0 %}
+                            <span class="fw-bold fs-5 ratio-high">{{ item.ratio }}</span>
+                            {% elif item.ratio > 12.0 %}
+                            <span class="fw-bold fs-5 ratio-medium">{{ item.ratio }}</span>
+                            {% else %}
+                            <span class="fw-bold fs-5 ratio-low">{{ item.ratio }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <h3 class="mb-3"><i class="bi bi-lightbulb text-warning me-2"></i>What Does This Data Tell Us?</h3>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Extreme Leverage (Ratio > 15)</h5>
+                                <ul>
+                                    <li>Very high demand for leveraged positions</li>
+                                    <li>Potentially strong directional sentiment</li>
+                                    <li>Significant market imbalances</li>
+                                    <li>Risk of liquidation cascades if market moves against positions</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>High Leverage (Ratio > 10)</h5>
+                                <ul>
+                                    <li>Substantial interest in margin trading</li>
+                                    <li>Assets favored for speculative positions</li>
+                                    <li>Higher borrowing costs (interest rates)</li>
+                                    <li>Potential for increased volatility</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% if chart_json %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        try {
+            const chartData = JSON.parse({{ chart_json|tojson }});
+            Plotly.newPlot('ratio-chart', chartData.data, chartData.layout);
+        } catch (e) {
+            console.error("Error rendering chart:", e);
+            document.getElementById('ratio-chart').innerHTML = '<div class="alert alert-warning">Error rendering chart. Data is still being processed.</div>';
+        }
+    });
+    
+    // Auto refresh data every 5 minutes
+    setTimeout(() => {
+        window.location.reload();
+    }, 5 * 60 * 1000);
+</script>
+{% endif %}
+{% endblock %}

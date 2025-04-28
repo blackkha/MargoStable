@@ -1,0 +1,121 @@
+/* Custom styles for the Crypto B/R Ratio application */
+
+/* Card hover effects */
+.margin-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.margin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Ratio color indicators */
+.ratio-high {
+    color: #ff4757;
+}
+
+.ratio-medium {
+    color: #ffa502;
+}
+
+.ratio-low {
+    color: #2ed573;
+}
+
+/* Chart container styles */
+.ratio-chart {
+    min-height: 400px;
+    width: 100%;
+}
+
+/* Badge styling */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+}
+
+/* Progress bar adjustments */
+.progress {
+    background-color: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* Footer adjustments */
+footer {
+    margin-top: 3rem;
+    padding: 2rem 0;
+}
+
+/* Page transitions */
+.container {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Media queries for better responsiveness */
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+    
+    .card-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Add nice box shadows to all cards */
+.card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Make tables more readable in dark mode */
+table {
+    color: #f8f9fa;
+}
+
+thead {
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+th, td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Custom styling for code blocks */
+code {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.2rem;
+}
+
+/* Improve input field styling */
+.form-control {
+    background-color: #2d3748;
+    border-color: #4a5568;
+    color: #f8f9fa;
+}
+
+.form-control:focus {
+    background-color: #2d3748;
+    border-color: #4299e1;
+    color: #f8f9fa;
+    box-shadow: 0 0 0 0.2rem rgba(66, 153, 225, 0.25);
+}

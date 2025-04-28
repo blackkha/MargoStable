@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}Crypto Leverage Indicator Tracker{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title mb-3">Top Cryptocurrencies by Leverage Indicator</h2>
+                    <p class="card-text text-muted">
+                        Displaying cryptocurrencies with the highest leverage indicator, derived from volume to market cap ratio and price volatility.
+                        <br>Last updated: {{ update_time }}
+                    </p>
+                    {% if chart_json %}
+                    <div id="chart-container" style="height: 600px;"></div>
+                    {% else %}
+                    <div class="alert alert-warning">
+                        Chart data unavailable. Please refresh the page.
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-dark">
+                    <h3 class="card-title mb-0">Detailed Leverage Indicator Data</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Symbol</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Leverage Indicator</th>
+                                    <th scope="col">Trading Volume</th>
+                                    <th scope="col">Market Cap (÷10)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for crypto in crypto_data %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td class="fw-bold">{{ crypto.symbol }}</td>
+                                    <td>{{ crypto.name }}</td>
+                                    <td class="fw-bold">{{ "%.2f"|format(crypto.ratio) }}</td>
+                                    <td>{{ crypto.borrow_formatted }}</td>
+                                    <td>{{ crypto.repay_formatted }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="alert alert-info">
+                            <p class="mb-0">
+                                <strong>What is the Leverage Indicator?</strong><br>
+                                A higher leverage indicator suggests more trading activity relative to market capitalization, often associated with leveraged trading.
+                                <br>Formula: <code>(Volume / Market Cap) × (1 + |24h Price Change %| / 100) × 100</code>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h4>Get Updates via Telegram</h4>
+                    <p>
+                        Subscribe to our Telegram bot for daily updates on cryptocurrencies with the highest leverage indicators.
+                        <br>
+                        <a href="https://t.me/your_bot_username" target="_blank" class="btn btn-primary mt-2">
+                            <i class="bi bi-telegram me-1"></i> Subscribe on Telegram
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if chart_json %}
+        const chartJson = {{ chart_json|safe }};
+        Plotly.newPlot('chart-container', chartJson.data, chartJson.layout);
+        {% endif %}
+    });
+</script>
+{% endblock %}

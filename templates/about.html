@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+
+{% block title %}About | Crypto B/R Ratio{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5">About This Project</h1>
+                <p class="lead">Understanding the Borrow/Repay Ratio in Cryptocurrency Markets</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card bg-dark mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">What is the Borrow/Repay Ratio?</h2>
+                        <p>
+                            The <strong>Borrow/Repay Ratio</strong> is a metric that compares the amount of a cryptocurrency that has been borrowed 
+                            against the amount that has been repaid within a specific time period (usually 24 hours). This ratio 
+                            provides valuable insights into market sentiment and trading behavior.
+                        </p>
+                        <p>
+                            <strong>Formula:</strong> Borrow/Repay Ratio = Total Borrowed Amount / Total Repaid Amount
+                        </p>
+                        <hr class="my-4">
+                        <h3>Why is this ratio important?</h3>
+                        <p>
+                            In margin trading and lending markets, borrowing activity often correlates with traders opening leveraged 
+                            positions. By tracking which cryptocurrencies have high borrow demand relative to repayments, we can 
+                            identify assets that traders are actively using for leveraged positions.
+                        </p>
+                        <ul>
+                            <li><strong>Ratio > 2.0:</strong> High borrowing demand, potentially indicating strong bullish or bearish sentiment</li>
+                            <li><strong>Ratio 1.0-2.0:</strong> Moderate borrowing activity</li>
+                            <li><strong>Ratio < 1.0:</strong> More repayments than new borrowing, possibly indicating position closing</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card bg-dark mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">How to Use This Data</h2>
+                        <p>
+                            The data presented on this site should not be used as the sole basis for investment decisions, but it can be 
+                            a valuable component of your research process. Here are some ways to interpret and use the information:
+                        </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Trend Analysis</h5>
+                                <p>Track how the ratio changes over time for specific cryptocurrencies. Consistent increases or decreases 
+                                can signal shifting market sentiment.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Relative Comparison</h5>
+                                <p>Compare ratios across different cryptocurrencies to identify which assets have higher leveraged 
+                                trading activity relative to others.</p>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <h5>Volatility Indicator</h5>
+                                <p>High borrow/repay ratios often precede periods of increased volatility as leveraged positions 
+                                amplify market movements.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Market Sentiment</h5>
+                                <p>Significant changes in this ratio can provide early signals about shifts in market sentiment before 
+                                they become apparent in price action.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card bg-dark mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Data Sources</h2>
+                        <p>
+                            This project collects data from multiple cryptocurrency exchanges that offer margin trading. 
+                            Our primary data source is the Binance API, with fallback to alternative sources using the CCXT library 
+                            when needed.
+                        </p>
+                        <p>
+                            All data is refreshed every 5 minutes to provide you with near real-time information. Historical data is 
+                            stored in our database for trend analysis.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card bg-dark mb-4">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">API Access</h2>
+                        <p>
+                            Developers can access the borrow/repay ratio data through our simple API endpoint:
+                        </p>
+                        <div class="bg-dark p-3 rounded mb-3">
+                            <code>GET /api/crypto-data</code>
+                        </div>
+                        <p>
+                            This returns a JSON object containing the current top 10 cryptocurrencies ranked by borrow/repay ratio.
+                        </p>
+                        <a href="/api/crypto-data" class="btn btn-outline-info" target="_blank">
+                            <i class="bi bi-code-slash me-2"></i>Try the API
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Disclaimer</h2>
+                        <p>
+                            The information provided on this website is for educational and informational purposes only. It should not 
+                            be considered financial advice. Always conduct your own research before making any investment decisions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

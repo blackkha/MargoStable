@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}Historical Data | Crypto B/R Ratio{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="display-5">Historical Data</h1>
+                <p class="lead">View borrow/repay ratio trends over time</p>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <h4 class="mb-4">Select Time Range</h4>
+                        <form method="get" class="d-flex justify-content-center">
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('history', days=1) }}" class="btn {% if days == 1 %}btn-primary{% else %}btn-outline-primary{% endif %}">1 Day</a>
+                                <a href="{{ url_for('history', days=7) }}" class="btn {% if days == 7 %}btn-primary{% else %}btn-outline-primary{% endif %}">1 Week</a>
+                                <a href="{{ url_for('history', days=30) }}" class="btn {% if days == 30 %}btn-primary{% else %}btn-outline-primary{% endif %}">1 Month</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if not has_data %}
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    No historical data available for the selected period. Data collection may have just started or there was an issue retrieving the data.
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% for date_item in date_data %}
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card bg-dark">
+                        <div class="card-header">
+                            <h4>{{ date_item.date }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="chart-{{ loop.index }}" class="ratio-chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card bg-dark">
+                    <div class="card-body">
+                        <h3 class="mb-3"><i class="bi bi-graph-up text-info me-2"></i>Understanding Borrow/Repay Ratio Trends</h3>
+                        <p>
+                            Historical data helps identify patterns and trends in borrowing behavior over time. By analyzing how 
+                            these ratios change, traders can gain insights into market dynamics and potential price movements.
+                        </p>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <h5>Rising Ratio Trends</h5>
+                                <ul>
+                                    <li>Often precede price increases in the short term</li>
+                                    <li>Indicate increasing leverage in the market</li>
+                                    <li>May signal upcoming volatility</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Declining Ratio Trends</h5>
+                                <ul>
+                                    <li>Often signal market consolidation</li>
+                                    <li>Can indicate profit-taking after significant price movements</li>
+                                    <li>Sometimes precede a change in medium-term market direction</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% for date_item in date_data %}
+        try {
+            const chartData{{ loop.index }} = JSON.parse({{ date_item.chart_json|tojson }});
+            Plotly.newPlot('chart-{{ loop.index }}', 
+                          chartData{{ loop.index }}.data, 
+                          chartData{{ loop.index }}.layout);
+        } catch (e) {
+            console.error("Error rendering chart for date {{ date_item.date }}:", e);
+            document.getElementById('chart-{{ loop.index }}').innerHTML = 
+                '<div class="alert alert-warning">Error rendering chart. Data is still being processed.</div>';
+        }
+        {% endfor %}
+    });
+</script>
+{% endblock %}

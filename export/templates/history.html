@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}Historical Data - Crypto Leverage Indicator Tracker{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <h2 class="card-title">Historical Leverage Indicator Data</h2>
+                    <p class="card-text text-muted">
+                        Displaying historical data for the top cryptocurrencies by leverage indicator over the past {{ days }} day(s).
+                    </p>
+                    
+                    <form class="mb-4">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <label for="daysSelect" class="col-form-label">Show data for the past:</label>
+                            </div>
+                            <div class="col-auto">
+                                <select class="form-select" id="daysSelect" name="days" onchange="this.form.submit()">
+                                    <option value="1" {% if days == 1 %}selected{% endif %}>1 day</option>
+                                    <option value="3" {% if days == 3 %}selected{% endif %}>3 days</option>
+                                    <option value="7" {% if days == 7 %}selected{% endif %}>7 days</option>
+                                    <option value="14" {% if days == 14 %}selected{% endif %}>14 days</option>
+                                    <option value="30" {% if days == 30 %}selected{% endif %}>30 days</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    {% if history %}
+                        {% for symbol, data in history_by_symbol.items() %}
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4 class="mb-0">{{ symbol }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Timestamp</th>
+                                                    <th>Leverage Indicator</th>
+                                                    <th>Volume</th>
+                                                    <th>Market Cap (÷10)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in data %}
+                                                <tr>
+                                                    <td>{{ item.timestamp }}</td>
+                                                    <td class="fw-bold">{{ "%.2f"|format(item.ratio) }}</td>
+                                                    <td>{{ item.borrow_amount }}</td>
+                                                    <td>{{ item.repay_amount }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-info">
+                            No historical data available for the selected time period.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
