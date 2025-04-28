@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Crypto Leverage Indicator Tracker
 
 A specialized web application and Telegram bot for analyzing and monitoring cryptocurrency leverage indicators, with a focus on high-leverage cryptocurrencies.
@@ -80,3 +81,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Data provided by [CoinGecko](https://www.coingecko.com/)
 - Built with [Python Telegram Bot](https://python-telegram-bot.org/)
+=======
+ddd
+>>>>>>> b32e17752cbf31073a7e0e56f0409d99db745ad1
