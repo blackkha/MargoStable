@@ -1,0 +1,29 @@
+# MargoBot Environment Variables
+
+# Flask Application
+SESSION_SECRET=your_secure_session_key_here
+FLASK_ENV=production
+PORT=5000
+
+# Database Configuration 
+DATABASE_URL=postgresql://neondb_owner:npg_zhBKZfbRH65L@ep-dark-wildflower-a6q0dd4n.us-west-2.aws.neon.tech/neondb?sslmode=require
+
+# Telegram Bot Configuration
+TELEGRAM_TOKEN=your_telegram_bot_token_here
+
+# CoinGecko API
+CG_API_KEY=your_coingecko_api_key_here
+
+# Replit-specific (automatically provided by Replit)
+# REPLIT_DOMAIN will be automatically set by Replit
+
+# Scheduling Configuration
+DAILY_REPORT_HOUR=10
+DAILY_REPORT_TIMEZONE=UTC
+
+# Application Settings
+DEBUG=False
+LOG_LEVEL=INFO
+
+# Optional: Backup DB URL (if using multiple environments)
+# BACKUP_DATABASE_URL=sqlite:///crypto_data.db
